@@ -14,17 +14,30 @@ import SectionHeader from "../components/SectionHeader";
 import TestimonialCard from "../components/TestimonialCard";
 import { services, testimonials, clientLogos, stats } from "../data";
 
+const ease = [0.23, 1, 0.32, 1] as [number, number, number, number];
+
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 40 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
       delay: i * 0.1,
-      duration: 0.6,
-      ease: "easeOut",
+      duration: 0.8,
+      ease,
     } as Transition,
   }),
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
 };
 
 const benefits = [
@@ -60,14 +73,15 @@ export default function Home() {
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-[120px] pointer-events-none animate-glow-pulse" />
         <div className="absolute top-2/3 right-0 w-[400px] h-[400px] bg-violet-500/5 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="container-max relative z-10">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={staggerContainer}
+          className="container-max relative z-10"
+        >
           <div className="max-w-4xl">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              custom={0}
-            >
+            <motion.div variants={fadeUp}>
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-semibold tracking-widest uppercase mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 Digital Growth Agency
@@ -75,10 +89,7 @@ export default function Home() {
             </motion.div>
 
             <motion.h1
-              initial="hidden"
-              animate="visible"
               variants={fadeUp}
-              custom={1}
               className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[1.05] mb-6"
             >
               Grow faster with{" "}
@@ -86,10 +97,7 @@ export default function Home() {
             </motion.h1>
 
             <motion.p
-              initial="hidden"
-              animate="visible"
               variants={fadeUp}
-              custom={2}
               className="text-white/50 text-lg md:text-xl leading-relaxed mb-8 max-w-2xl"
             >
               We help ambitious businesses scale online through web development,
@@ -98,10 +106,7 @@ export default function Home() {
             </motion.p>
 
             <motion.div
-              initial="hidden"
-              animate="visible"
               variants={fadeUp}
-              custom={3}
               className="flex flex-wrap items-center gap-4"
             >
               <Link to="/contact" className="btn-primary text-base px-7 py-3.5">
@@ -116,10 +121,7 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              initial="hidden"
-              animate="visible"
               variants={fadeUp}
-              custom={4}
               className="flex flex-wrap items-center gap-6 mt-10"
             >
               {[
@@ -134,7 +136,7 @@ export default function Home() {
               ))}
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ── Client Logos ─────────────────────────────────────────────────── */}
@@ -170,19 +172,26 @@ export default function Home() {
             highlight="grow online"
             subtitle="From your first website to multi-channel advertising — we handle the digital side so you can focus on the business side."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {services.map((service, i) => {
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {services.map((service) => {
               return (
                 <motion.div
                   key={service.id}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className={`glass-card p-7 border ${service.borderColor} hover:border-opacity-60 hover:-translate-y-1 transition-all duration-300 group`}
+                  variants={fadeUp}
+                  whileHover={{
+                    y: -8,
+                    transition: { duration: 0.3, ease: "easeOut" },
+                  }}
+                  className={`glass-card p-7 border ${service.borderColor} hover:border-opacity-60 transition-all duration-300 group`}
                 >
                   <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-5`}
+                    className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-500`}
                   >
                     <span className="text-xl">
                       {service.icon === "Code2"
@@ -213,7 +222,7 @@ export default function Home() {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
           <div className="text-center mt-10">
             <Link to="/services" className="btn-secondary inline-flex">
               View all services & pricing <ArrowUpRight className="w-4 h-4" />
@@ -252,14 +261,17 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {benefits.map(({ icon: Icon, title, desc }, i) => (
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid grid-cols-2 gap-4"
+            >
+              {benefits.map(({ icon: Icon, title, desc }) => (
                 <motion.div
                   key={title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
+                  variants={fadeUp}
                   className="glass-card p-5 hover:border-white/20 transition-all duration-300"
                 >
                   <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center mb-4">
@@ -273,7 +285,7 @@ export default function Home() {
                   </p>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -281,14 +293,17 @@ export default function Home() {
       {/* ── Stats ────────────────────────────────────────────────────────── */}
       <section className="section-padding">
         <div className="container-max">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {stats.map(({ value, label }, i) => (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          >
+            {stats.map(({ value, label }) => (
               <motion.div
                 key={label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
+                variants={fadeUp}
                 className="glass-card p-6 text-center"
               >
                 <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
@@ -297,7 +312,7 @@ export default function Home() {
                 <div className="text-white/40 text-sm">{label}</div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -310,19 +325,19 @@ export default function Home() {
             highlight="for it"
             subtitle="Real results from real businesses. Here's what our clients say about working with NexaGrowth."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={t.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-              >
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+          >
+            {testimonials.map((t) => (
+              <motion.div key={t.id} variants={fadeUp}>
                 <TestimonialCard {...t} />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
