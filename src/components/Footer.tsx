@@ -1,36 +1,36 @@
-import { Link } from 'react-router-dom'
-import { Zap, Twitter, Linkedin, Instagram, Github, ArrowUpRight } from 'lucide-react'
+import { Link } from "react-router-dom";
+import { Zap, Bird, Briefcase, Camera, Code, ArrowUpRight} from "lucide-react";
 
 const footerLinks = {
   Company: [
-    { label: 'About', path: '/about' },
-    { label: 'Services', path: '/services' },
-    { label: 'Blog', path: '/blog' },
-    { label: 'Contact', path: '/contact' },
+    { label: "About", path: "/about" },
+    { label: "Services", path: "/services" },
+    { label: "Blog", path: "/blog" },
+    { label: "Contact", path: "/contact" },
   ],
   Services: [
-    { label: 'Web Development', path: '/services' },
-    { label: 'SEO Optimization', path: '/services' },
-    { label: 'Online Advertising', path: '/services' },
-    { label: 'Booking Systems', path: '/services' },
+    { label: "Web Development", path: "/services" },
+    { label: "SEO Optimization", path: "/services" },
+    { label: "Online Advertising", path: "/services" },
+    { label: "Booking Systems", path: "/services" },
   ],
   Legal: [
-    { label: 'Privacy Policy', path: '#' },
-    { label: 'Terms of Service', path: '#' },
-    { label: 'Cookie Policy', path: '#' },
+    { label: "Privacy Policy", path: "#" },
+    { label: "Terms of Service", path: "#" },
+    { label: "Cookie Policy", path: "#" },
   ],
-}
+};
 
 const socials = [
-  { icon: Twitter, label: 'Twitter', href: '#' },
-  { icon: Linkedin, label: 'LinkedIn', href: '#' },
-  { icon: Instagram, label: 'Instagram', href: '#' },
-  { icon: Github, label: 'GitHub', href: '#' },
-]
+  { icon: Bird, label: "Twitter", href: "#" },
+  { icon: Briefcase, label: "LinkedIn", href: "#" },
+  { icon: Camera, label: "Instagram", href: "#" },
+  { icon: Code, label: "GitHub", href: "#" },
+];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/8 bg-dark-800/40">
+    <footer className="border-t border-white/[0.08] bg-dark-800/40">
       <div className="container-max section-padding">
         {/* Top CTA strip */}
         <div className="glass-card p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 mb-16 glow-accent">
@@ -60,7 +60,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-white/40 text-sm leading-relaxed mb-4">
-              We help businesses grow online through smart strategy, beautiful design, and data-driven execution.
+              We help businesses grow online through smart strategy, beautiful
+              design, and data-driven execution.
             </p>
             <div className="flex items-center gap-3">
               {socials.map(({ icon: Icon, label, href }) => (
@@ -79,7 +80,9 @@ export default function Footer() {
           {/* Links */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section}>
-              <p className="text-white/70 font-semibold text-sm mb-4">{section}</p>
+              <p className="text-white/70 font-semibold text-sm mb-4">
+                {section}
+              </p>
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
@@ -97,7 +100,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-white/8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-white/[0.08] flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/30 text-sm">
             © {new Date().getFullYear()} NexaGrowth. All rights reserved.
           </p>
@@ -107,5 +110,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
